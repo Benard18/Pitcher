@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required, current_user
 from ..models import User, PitchCategory, Pitches, Comments
-from .forms import UpdateProfile, PitchForm, CommentForm
+from .forms import UpdateProfile, PitchForm, CommentForm, CategoriesForm
 from .. import db, photos
 
 
@@ -12,6 +12,7 @@ def index():
 
     title = 'Home- Welcome to the Pitch Website'
     categories = PitchCategory.get_categories()
+
     return render_template('index.html', title=title, categories=categories)
 
 
@@ -39,8 +40,17 @@ def new_pitch(id):
     return render_template('new_pitch.html', pitch_form=form, category=category)
 
 # Routes for displaying the different pitches
-
-
+@main.route('/category/new',methods=['GET','POST'])
+@login_required
+def new_category():
+	form = CategoriesForm()
+	if form.validate_on_submit():
+		name = form.name.data
+		new_category = PitchCategory(name=name)
+		new_category.save_category()
+		return redirect(url_for('.new_category'))
+	title = 'New Pitch Category'
+	return render_template('new_category.html',categories_form=form)	
 @main.route('/category/<int:id>')
 def category(id):
     '''
@@ -48,7 +58,6 @@ def category(id):
     '''
 
     category = PitchCategory.query.get(id)
-
     if category is None:
         abort(404)
 
