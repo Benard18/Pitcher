@@ -18,3 +18,7 @@ class PitchForm(FlaskForm):
 class CommentForm(FlaskForm):
     comment_id = TextAreaField('WRITE COMMENT')
     submit = SubmitField('SUBMIT')
+
+class CategoriesForm(FlaskForm):
+	name = TextAreaField('WRITE COMMENT')
+	submit = SubmitField('SUBMIT')
