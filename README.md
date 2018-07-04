@@ -1,6 +1,6 @@
 # Pitcher
 
-#PITCHES
+# PITCHES
 
 Pitcher is an application which enables one to pitch a certain category and can comment on it!
 
