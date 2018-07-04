@@ -1,6 +1,6 @@
 # Pitcher
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+#PITCHES
 
 Pitcher is an application which enables one to pitch a certain category and can comment on it!
 

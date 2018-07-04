@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required, current_user
-from ..models import User, PitchCategory, Pitches, Comments
+from ..models import User, PitchCategory, Pitches, Comments, Likes, Dislikes
 from .forms import UpdateProfile, PitchForm, CommentForm, CategoriesForm
 from .. import db, photos
 
@@ -147,3 +147,19 @@ def new_comment(id):
         return redirect(url_for('.category', id=pitches.category_id))
 
     return render_template('comment.html', comment_form=form)
+
+@main.route('/like/<id>')
+@login_required
+def like(id):
+	if Likes.query.filter(Likes.users_id==current_user.id,Likes.post_id==id).first():
+		return url_for('main.new_pitch',id=Likes.post_id)
+	Likes(users_id=current_user.id).save()
+	return url_for('main.new_pitch',id=Likes.post_id)
+
+@main.route('/dislike/<id>')
+@login_required
+def dislike(id):
+	if Dislikes.query.filter(Dislikes.users_id==current_user.id,Dislikes.post_id==id).first():
+		return url_for('main.new_pitch',id=Dislikes.post_id)
+	Dislikes(users_id=current_user.id,post_id=id).save()
+	return url_for('main.new_pitch',id=Dislikes.post_id)
